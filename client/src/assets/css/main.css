@@ -14,9 +14,11 @@ body {
 .btn {
   box-sizing: border-box;
   font-size: 1em;
+  font-weight: 600;
   padding: 8px 10px;
   border-radius: 5px;
   border: 0;
+  text-decoration: none;
 }
 
 .btn-lg {
@@ -78,6 +80,7 @@ body {
 
 .form label {
   display: block;
+  margin-bottom: 5px;
 }
 
 .form input[type=text] {
@@ -135,7 +138,6 @@ body {
   width: 35px;
   background-color: #1D2F49;
   border-radius: 50%;
-  margin-bottom: -10px;
 }
 
 .message .body {
