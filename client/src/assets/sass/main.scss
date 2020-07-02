@@ -1,0 +1,176 @@
+$main-color: #1D2F49;
+$base-color: #E8F7EE;
+$accent-color: #00A5E0;
+$danger-color: #D81E5B;
+$sub-color: #999999;
+
+$message-color: #ccedf8;
+
+html {
+    background-color: $base-color;
+}
+
+body {
+    margin: 0;
+    color: $main-color;
+}
+
+.mt {
+    &-10 {
+        margin-top: 10px;
+    }
+}
+
+.btn {
+    box-sizing: border-box;
+    font-size: 1em;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 0;
+}
+
+.btn-lg {
+    width: 100%;
+}
+
+.btn:hover{
+    opacity: .7;
+}
+
+.btn-accent {
+    background-color: $accent-color;
+    color: #ffffff;
+}
+
+.btn-sub {
+    background-color: $sub-color;
+    color: #ffffff;
+}
+
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 80%;
+    min-width: 500px;
+    margin-top: 10px;
+    // background-color: $main-color;
+    position: relative;
+    .fix-header {
+        position: fixed;
+        width: inherit;
+    }
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        label {
+            font-size: 1.7em;
+        }
+    }
+    .content {
+        margin-top: 20px;
+    }
+}
+
+.form {
+    box-sizing: border-box;
+    & > div {
+        margin-bottom: 15px;
+    }
+    label {
+        display: block;
+    }
+    input[type=text] {
+        border-radius: 5px;
+        border: 1px solid $sub-color;
+        box-sizing: border-box;
+        font-size: 1em;
+        padding: 5px 10px;
+        width: 100%;
+    }
+}
+
+.send-form {
+    input[type=text] {
+        box-sizing: border-box;
+        font-size: 1em;
+        padding: 8px 15px;
+        width: 100%;
+        // border-radius: 5px;
+        border: 1px solid $sub-color;
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.dialog {
+    height: 550px;
+    background-color: #ffffff;
+    overflow-y: scroll;
+    word-break: break-word;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    border: 1px solid $sub-color;
+    border-radius: 5px;
+    margin: 0;
+    list-style: none;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    .sender {
+        text-align: center;
+        width: 80px;
+        .name {
+            font-size: small;
+            // overflow: hidden;
+            // word-break: keep-all;
+        }
+        .avatar {
+            display: inline-block;
+            height: 35px;
+            width: 35px;
+            background-color: $main-color;
+            border-radius: 50%;
+            margin-bottom: -10px;
+        }
+    }
+    .body {
+        box-sizing: border-box;
+        display: inline-block;
+        background-color: $message-color;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+}
+
+.list {
+    margin: 0;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid $sub-color;
+    padding: 0;
+    border-radius: 5px;
+    &-item {
+        border-bottom: 1px solid $main-color;
+        &:last-child {
+            border: 0;
+        }
+    }
+    &-link {
+        display: block;
+        color: $main-color;
+        padding: 10px 20px;
+        text-decoration: none;
+        &:hover {
+            background-color: $message-color;
+        }
+    }
+}
