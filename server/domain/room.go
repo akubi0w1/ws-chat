@@ -66,10 +66,12 @@ func (r *Room) Run() {
 		select {
 		case client := <-r.Register:
 			r.Clients[client] = true
+			log.Println("register")
 		case client := <-r.Unregister:
 			if _, ok := r.Clients[client]; ok {
 				delete(r.Clients, client)
 				close(client.Send)
+				log.Println("unregister")
 			}
 		case message := <-r.Broadcast:
 			for client := range r.Clients {
@@ -92,6 +94,7 @@ func (c *Client) ReadMessage() {
 	}()
 
 	for {
+		log.Println("read message!")
 		var message MessageRequest
 		err := c.Conn.ReadJSON(&message)
 		if err != nil {
@@ -104,6 +107,12 @@ func (c *Client) ReadMessage() {
 			Room:      c.Room,
 			Sender:    c.User,
 		}
+		id, err := insertMessage(msg)
+		if err != nil {
+			log.Printf("failed to insert db: %v", err)
+			continue
+		}
+		msg.ID = int(id)
 		c.Room.Broadcast <- msg
 	}
 }
@@ -117,21 +126,21 @@ func (c *Client) WriteMessage() {
 	}()
 
 	for {
+		log.Println("write message!")
 		message := <-c.Send
-		// TODO: db登録のタイミングが悪すぎる...?
-		id, err := insertMessage(message)
-		if err != nil {
-			log.Printf("failed to insert db: %v", err)
-			continue
+		if message == nil {
+			log.Printf("message is nil")
+			break
 		}
+
 		msg := &messageResponse{
-			ID:     int(id),
+			ID:     message.ID,
 			Body:   message.Body,
 			Room:   &roomResponse{ID: message.Room.ID, Name: message.Room.Name},
 			Sender: &userResponse{ID: message.Sender.ID, UserID: message.Sender.UserID, Name: message.Sender.Name},
 		}
 
-		err = c.Conn.WriteJSON(msg)
+		err := c.Conn.WriteJSON(msg)
 		if err != nil {
 			log.Printf("failed to write message: %v", err)
 			break
@@ -148,6 +157,8 @@ func insertMessage(msg *Message) (int, error) {
 		log.Fatalf("failed to connect db: %v", err)
 	}
 
+	// TODO: クライアント側でcloseするとここでエラー吐かれる
+	// invalid memory address or nil pointer
 	result, err := db.Exec(`
 		INSERT INTO messages(body, user_id, room_id, created_at) VALUES (?,?,?,?)
 	`, msg.Body, msg.Sender.ID, msg.Room.ID, time.Unix(msg.CreatedAt, 0))

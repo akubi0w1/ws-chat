@@ -19,6 +19,7 @@ import (
 var upgrader = websocket.Upgrader{}
 
 func StartConnection(writer http.ResponseWriter, request *http.Request) {
+
 	vars := mux.Vars(request)
 	roomID, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -60,6 +61,7 @@ func StartConnection(writer http.ResponseWriter, request *http.Request) {
 }
 
 func serveWebsocket(room *domain.Room, user *domain.User, repo repository.MessageRepository, w http.ResponseWriter, r *http.Request) {
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Printf("failed to upgrade get request to a websocket: %v", err)
@@ -69,6 +71,7 @@ func serveWebsocket(room *domain.Room, user *domain.User, repo repository.Messag
 	client := &domain.Client{Room: room, User: user, Conn: conn, Send: make(chan *domain.Message)}
 	client.Room.Register <- client
 
+	log.Println("serv websocket")
 	go client.WriteMessage()
 	go client.ReadMessage()
 }
