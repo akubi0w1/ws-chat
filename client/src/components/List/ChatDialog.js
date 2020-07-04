@@ -6,6 +6,7 @@ const ChatDialog = (props) => {
             {
                 props.messages.map(msg => (
                     <Message
+                        key={msg.id}
                         userName={msg.user.name}
                         body={msg.body}
                     />

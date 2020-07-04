@@ -6,7 +6,7 @@ const RoomList = (props) => {
         <ul className="list">
             {
                 props.roomList.map(room => (
-                    <ListItem id={room.id} label={room.label}/>
+                    <ListItem key={room.id} id={room.id} name={room.name}/>
                 ))
             }
         </ul>
@@ -16,7 +16,7 @@ const RoomList = (props) => {
 const ListItem = (props) => {
     return (
         <li className="list-item">
-            <Link to={`/rooms/${props.id}/dialog`} className="list-link">{props.label}</Link>
+            <Link to={`/rooms/${props.id}/dialog`} className="list-link">{props.name}</Link>
         </li>
     )
 };
