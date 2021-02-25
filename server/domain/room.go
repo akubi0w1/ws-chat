@@ -160,7 +160,7 @@ func insertMessage(msg *Message) (int, error) {
 	// TODO: クライアント側でcloseするとここでエラー吐かれる
 	// invalid memory address or nil pointer
 	result, err := db.Exec(`
-		INSERT INTO messages(body, user_id, room_id, created_at) VALUES (?,?,?,?)
+		INSERT INTO messages(message, user_id, room_id, created_at) VALUES (?,?,?,?)
 	`, msg.Body, msg.Sender.ID, msg.Room.ID, time.Unix(msg.CreatedAt, 0))
 	if err != nil {
 		err = errors.Wrap(err, "failed to insert db")

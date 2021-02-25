@@ -11,7 +11,9 @@ const Home = () => {
     useEffect(() => {
         axios.get("http://" + document.location.hostname + ":8080/rooms")
             .then((res) => {
-                setRoomList(res.data.rooms)
+                res.data.rooms
+                ? setRoomList(res.data.rooms)
+                : setRoomList([])
             })
             .catch((err) => setSysMessage("sorry. failed to connection api｡ﾟ(ﾟ´ω`ﾟ)ﾟ｡"))
     }, [])

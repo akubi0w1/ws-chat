@@ -34,6 +34,7 @@ func StartConnection(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	// userの取得
+	// TODO: repo叩けばよくない？WebcockHandlerみたいなハンドラ作っておけば良さそう？
 	db, err := sql.Open("mysql", "root:password@tcp(localhost:3307)/chat")
 	if err != nil {
 		log.Fatalf("failed to connect db: %v", err)
